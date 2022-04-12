@@ -8,7 +8,8 @@
       // matches the group ID on the host, add this to your .bash_profile on the host
       // 		export DOCKER_GROUP_ID=$(getent group docker | awk -F ":" '{ print $3 }')
       "DOCKER_GROUP_ID": "${localEnv:DOCKER_GROUP_ID}",
-      "INTERACTIVE": "true"
+      "INTERACTIVE": "true",
+      "INSTALL_NODE": "true"
     }
   },
   "runArgs": [
