@@ -20,7 +20,7 @@ build-and-push-mlflow: build-mlflow-image push-mlflow-image
 tre-deploy: deploy-core deploy-shared-services db-migrate show-core-output
 deploy-shared-services:
 	$(MAKE) firewall-install \
-	&& . ./devops/scripts/load_env.sh ./templates/core/.env \
+	&& . ${MAKEFILE_DIR}/devops/scripts/load_env.sh ${MAKEFILE_DIR}/templates/core/.env \
 	&& if [ "$${DEPLOY_GITEA}" == "true" ]; then $(MAKE) gitea-install; fi \
 	&& if [ "$${DEPLOY_NEXUS}" == "true" ]; then $(MAKE) nexus-install; fi
 
