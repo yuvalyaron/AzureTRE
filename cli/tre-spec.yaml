@@ -1,0 +1,2079 @@
+openapi: 3.0.2
+info:
+  title: Azure TRE API
+  description: Welcome to the Azure TRE API - for more information about templates and workspaces see the [Azure TRE documentation](https://microsoft.github.io/AzureTRE)
+  version: 0.2.14
+paths:
+  /api/health:
+    get:
+      tags:
+        - health
+      summary: Get Health Status
+      operationId: Get_health_status_api_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /api/workspace-templates:
+    get:
+      tags:
+        - workspace templates
+      summary: Get Workspace Templates
+      operationId: Get_workspace_templates_api_workspace_templates_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTemplateInformationInList'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - workspace templates
+      summary: Register Workspace Template
+      operationId: Register_workspace_template_api_workspace_templates_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceTemplateInCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+  /api/workspace-templates/{workspace_template_name}:
+    get:
+      tags:
+        - workspace templates
+      summary: Get Workspace Template By Name
+      operationId: Get_workspace_template_by_name_api_workspace_templates__workspace_template_name__get
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Template Name
+            type: string
+          name: workspace_template_name
+          in: path
+        - required: false
+          schema:
+            title: Is Update
+            type: boolean
+            default: false
+          name: is_update
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+  /api/workspace-service-templates:
+    get:
+      tags:
+        - workspace service templates
+      summary: Get Workspace Service Templates
+      operationId: Get_workspace_service_templates_api_workspace_service_templates_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTemplateInformationInList'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - workspace service templates
+      summary: Register Workspace Service Template
+      operationId: Register_workspace_service_template_api_workspace_service_templates_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceServiceTemplateInCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceServiceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspace-service-templates/{service_template_name}:
+    get:
+      tags:
+        - workspace service templates
+      summary: Get Workspace Service Template By Name
+      operationId: Get_workspace_service_template_by_name_api_workspace_service_templates__service_template_name__get
+      parameters:
+        - required: true
+          schema:
+            title: Service Template Name
+            type: string
+          name: service_template_name
+          in: path
+        - required: false
+          schema:
+            title: Is Update
+            type: boolean
+            default: false
+          name: is_update
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceServiceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+  /api/workspace-service-templates/{service_template_name}/user-resource-templates:
+    get:
+      tags:
+        - user resource templates
+      summary: Get User Resource Templates Applicable To The Workspace Service Template
+      operationId: Get_user_resource_templates_applicable_to_the_workspace_service_template_api_workspace_service_templates__service_template_name__user_resource_templates_get
+      parameters:
+        - required: true
+          schema:
+            title: Service Template Name
+            type: string
+          name: service_template_name
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTemplateInformationInList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - user resource templates
+      summary: Register User Resource Template
+      operationId: Register_user_resource_template_api_workspace_service_templates__service_template_name__user_resource_templates_post
+      parameters:
+        - required: true
+          schema:
+            title: Service Template Name
+            type: string
+          name: service_template_name
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResourceTemplateInCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResourceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspace-service-templates/{service_template_name}/user-resource-templates/{user_resource_template_name}:
+    get:
+      tags:
+        - user resource templates
+      summary: Get User Resource Template By Name And Workspace Service
+      operationId: Get_user_resource_template_by_name_and_workspace_service_api_workspace_service_templates__service_template_name__user_resource_templates__user_resource_template_name__get
+      parameters:
+        - required: true
+          schema:
+            title: Service Template Name
+            type: string
+          name: service_template_name
+          in: path
+        - required: true
+          schema:
+            title: User Resource Template Name
+            type: string
+          name: user_resource_template_name
+          in: path
+        - required: false
+          schema:
+            title: Is Update
+            type: boolean
+            default: false
+          name: is_update
+          in: query
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResourceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+  /api/shared-service-templates:
+    get:
+      tags:
+        - shared service templates
+      summary: Get Shared Service Templates
+      operationId: Get_shared_service_templates_api_shared_service_templates_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceTemplateInformationInList'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - shared service templates
+      summary: Register Shared Service Template
+      operationId: Register_shared_service_template_api_shared_service_templates_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedServiceTemplateInCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedServiceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/shared-service-templates/{shared_service_template_name}:
+    get:
+      tags:
+        - shared service templates
+      summary: Get Shared Service Template By Name
+      operationId: Get_shared_service_template_by_name_api_shared_service_templates__shared_service_template_name__get
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Template Name
+            type: string
+          name: shared_service_template_name
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedServiceTemplateInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+  /api/shared-services:
+    get:
+      tags:
+        - shared services
+      summary: Get All Shared Services
+      operationId: Get_all_shared_services_api_shared_services_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedServicesInList'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - shared services
+      summary: Create A Shared Service
+      operationId: Create_a_shared_service_api_shared_services_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedServiceInCreate'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/shared-services/{shared_service_id}:
+    get:
+      tags:
+        - shared services
+      summary: Get Shared Service By Id
+      operationId: Get_shared_service_by_Id_api_shared_services__shared_service_id__get
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedServiceInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+    delete:
+      tags:
+        - shared services
+      summary: Delete Shared Service
+      operationId: Delete_shared_service_api_shared_services__shared_service_id__delete
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+    patch:
+      tags:
+        - shared services
+      summary: Update An Existing Shared Service
+      operationId: Update_an_existing_shared_service_api_shared_services__shared_service_id__patch
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+        - required: false
+          schema:
+            title: Etag
+            type: string
+          name: etag
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourcePatch'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedServiceInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/shared-services/{shared_service_id}/invoke-action:
+    post:
+      tags:
+        - shared services
+      summary: Invoke Action On A Shared Service
+      operationId: Invoke_action_on_a_shared_service_api_shared_services__shared_service_id__invoke_action_post
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+        - required: true
+          schema:
+            title: Action
+            type: string
+          name: action
+          in: query
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/shared-services/{shared_service_id}/operations:
+    get:
+      tags:
+        - shared services
+      summary: Get All Operations For A Resource
+      operationId: Get_all_operations_for_a_resource_api_shared_services__shared_service_id__operations_get
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/shared-services/{shared_service_id}/operations/{operation_id}:
+    get:
+      tags:
+        - shared services
+      summary: Get A Single Resource Operation By Id
+      operationId: Get_a_single_resource_operation_by_id_api_shared_services__shared_service_id__operations__operation_id__get
+      parameters:
+        - required: true
+          schema:
+            title: Shared Service Id
+            type: string
+            format: uuid4
+          name: shared_service_id
+          in: path
+        - required: true
+          schema:
+            title: Operation Id
+            type: string
+            format: uuid4
+          name: operation_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspaces:
+    get:
+      tags:
+        - workspaces
+      summary: Get All Workspaces
+      operationId: Get_all_workspaces_api_workspaces_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspacesInList'
+      security:
+        - oauth2: []
+    post:
+      tags:
+        - workspaces
+      summary: Create A Workspace
+      operationId: Create_a_workspace_api_workspaces_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceInCreate'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspaces/{workspace_id}:
+    get:
+      tags:
+        - workspaces
+      summary: Get Workspace By Id
+      operationId: Get_workspace_by_Id_api_workspaces__workspace_id__get
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+    delete:
+      tags:
+        - workspaces
+      summary: Delete Workspace
+      operationId: Delete_workspace_api_workspaces__workspace_id__delete
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+    patch:
+      tags:
+        - workspaces
+      summary: Update An Existing Workspace
+      operationId: Update_an_existing_workspace_api_workspaces__workspace_id__patch
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+        - required: false
+          schema:
+            title: Etag
+            type: string
+          name: etag
+          in: header
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourcePatch'
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspaces/{workspace_id}/invoke-action:
+    post:
+      tags:
+        - workspaces
+      summary: Invoke Action On A Workspace
+      operationId: Invoke_action_on_a_workspace_api_workspaces__workspace_id__invoke_action_post
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+        - required: true
+          schema:
+            title: Action
+            type: string
+          name: action
+          in: query
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspaces/{workspace_id}/operations:
+    get:
+      tags:
+        - workspaces
+      summary: Get All Operations For A Resource
+      operationId: Get_all_operations_for_a_resource_api_workspaces__workspace_id__operations_get
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInList'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+  /api/workspaces/{workspace_id}/operations/{operation_id}:
+    get:
+      tags:
+        - workspaces
+      summary: Get A Single Resource Operation By Id
+      operationId: Get_a_single_resource_operation_by_id_api_workspaces__workspace_id__operations__operation_id__get
+      parameters:
+        - required: true
+          schema:
+            title: Workspace Id
+            type: string
+            format: uuid4
+          name: workspace_id
+          in: path
+        - required: true
+          schema:
+            title: Operation Id
+            type: string
+            format: uuid4
+          name: operation_id
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationInResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+        - oauth2: []
+        - oauth2: []
+components:
+  schemas:
+    CustomAction:
+      title: CustomAction
+      type: object
+      properties:
+        name:
+          title: Custom action name
+          type: string
+        description:
+          title: Action description
+          type: string
+          default: ''
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        errors:
+          title: Errors
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    Operation:
+      title: Operation
+      required:
+        - id
+        - resourceId
+        - resourcePath
+        - action
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: GUID identifying the operation
+        resourceId:
+          title: resourceId
+          type: string
+          description: GUID identifying the resource
+        resourcePath:
+          title: resourcePath
+          type: string
+          description: Path of the resource undergoing change, i.e. '/workspaces/guid/workspace-services/guid/'
+        resourceVersion:
+          title: resourceVersion
+          type: integer
+          description: Version of the resource this operation relates to
+          default: 0
+        status:
+          title: Operation status
+          allOf:
+            - $ref: '#/components/schemas/Status'
+          default: not_deployed
+        action:
+          title: action
+          type: string
+          description: Name of the action being performed on the resource, i.e. install, uninstall, start
+        message:
+          title: Additional operation status information
+          type: string
+          default: ''
+        createdWhen:
+          title: POSIX Timestamp for when the operation was submitted
+          type: number
+          default: ''
+        updatedWhen:
+          title: POSIX Timestamp for When the operation was updated
+          type: number
+          default: ''
+        user:
+          title: User
+          type: object
+          default: {}
+      description: Operation model
+    OperationInList:
+      title: OperationInList
+      type: object
+      properties:
+        operations:
+          title: Operations
+          type: array
+          items:
+            $ref: '#/components/schemas/Operation'
+          default: []
+      example:
+        operations:
+          - id: 7ac667f0-fd3f-4a6c-815b-82d0cb7a2132
+            resourceId: 933ad738-7265-4b5f-9eae-a1a62928772e
+            resourcePath: /workspaces/933ad738-7265-4b5f-9eae-a1a62928772e
+            resourceVersion: 0
+            status: not_deployed
+            message: ''
+            createdWhen: 1642611942.423857
+            updatedWhen: 1642611942.423857
+          - id: 640488fe-9408-4b9f-a239-3b03bc0c5df0
+            resourceId: 933ad738-7265-4b5f-9eae-a1a62928772e
+            resourcePath: /workspaces/933ad738-7265-4b5f-9eae-a1a62928772e
+            resourceVersion: 0
+            status: not_deployed
+            message: ''
+            createdWhen: 1642611942.423857
+            updatedWhen: 1642611942.423857
+    OperationInResponse:
+      title: OperationInResponse
+      required:
+        - operation
+      type: object
+      properties:
+        operation:
+          $ref: '#/components/schemas/Operation'
+      example:
+        operation:
+          id: 7ac667f0-fd3f-4a6c-815b-82d0cb7a2132
+          resourceId: 933ad738-7265-4b5f-9eae-a1a62928772e
+          resourcePath: /workspaces/933ad738-7265-4b5f-9eae-a1a62928772e
+          resourceVersion: 0
+          status: not_deployed
+          message: ''
+          createdWhen: 1642611942.423857
+          updatedWhen: 1642611942.423857
+    Property:
+      title: Property
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          title: Property type
+          type: string
+        title:
+          title: Property description
+          type: string
+          default: ''
+        description:
+          title: Property description
+          type: string
+          default: ''
+        default:
+          title: Default value for the property
+        enum:
+          title: Enum values
+          type: array
+          items:
+            type: string
+        const:
+          title: Constant value
+        multipleOf:
+          title: Multiple of
+          type: number
+        maximum:
+          title: Maximum value
+          type: number
+        exclusiveMaximum:
+          title: Exclusive maximum value
+          type: number
+        minimum:
+          title: Minimum value
+          type: number
+        exclusiveMinimum:
+          title: Exclusive minimum value
+          type: number
+        maxLength:
+          title: Maximum length
+          type: integer
+        minLength:
+          title: Minimum length
+          type: integer
+        pattern:
+          title: Pattern
+          type: string
+        updateable:
+          title: Indicates that the field can be updated
+          type: boolean
+        readOnly:
+          title: Indicates the field is read-only
+          type: boolean
+    ResourceHistoryItem:
+      title: ResourceHistoryItem
+      required:
+        - isEnabled
+        - resourceVersion
+        - updatedWhen
+      type: object
+      properties:
+        properties:
+          title: Properties
+          type: object
+          default: {}
+        isEnabled:
+          title: Isenabled
+          type: boolean
+        resourceVersion:
+          title: Resourceversion
+          type: integer
+        updatedWhen:
+          title: Updatedwhen
+          type: number
+        user:
+          title: User
+          type: object
+          default: {}
+      description: Resource History Item - to preserve history of resource properties
+    ResourcePatch:
+      title: ResourcePatch
+      type: object
+      properties:
+        isEnabled:
+          title: Isenabled
+          type: boolean
+        properties:
+          title: Properties
+          type: object
+      example:
+        isEnabled: false
+        properties:
+          display_name: the display name
+          description: a description
+          other_fields: other properties defined by the resource template
+    ResourceTemplateInformation:
+      title: ResourceTemplateInformation
+      required:
+        - name
+      type: object
+      properties:
+        name:
+          title: Template name
+          type: string
+        title:
+          title: Template title
+          type: string
+          default: ''
+        description:
+          title: Template description
+          type: string
+          default: ''
+    ResourceTemplateInformationInList:
+      title: ResourceTemplateInformationInList
+      required:
+        - templates
+      type: object
+      properties:
+        templates:
+          title: Templates
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceTemplateInformation'
+      example:
+        templates:
+          - name: tre-workspace-base
+            title: Base Workspace
+            description: base description
+          - name: tre-workspace-base
+            title: Base Workspace
+            description: base description
+    ResourceType:
+      title: ResourceType
+      enum:
+        - workspace
+        - workspace-service
+        - user-resource
+        - shared-service
+      type: string
+      description: Type of resource to deploy
+    SharedService:
+      title: SharedService
+      required:
+        - id
+        - templateName
+        - templateVersion
+        - _etag
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: GUID identifying the resource request
+        templateName:
+          title: Resource template name
+          type: string
+          description: The resource template (bundle) to deploy
+        templateVersion:
+          title: Resource template version
+          type: string
+          description: The version of the resource template (bundle) to deploy
+        properties:
+          title: Resource template parameters
+          type: object
+          description: Parameters for the deployment
+          default: {}
+        isActive:
+          title: Isactive
+          type: boolean
+          default: true
+        isEnabled:
+          title: Isenabled
+          type: boolean
+          default: true
+        resourceType:
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+          default: shared-service
+        _etag:
+          title: _etag
+          type: string
+          description: eTag of the document
+        resourcePath:
+          title: Resourcepath
+          type: string
+          default: ''
+        resourceVersion:
+          title: Resourceversion
+          type: integer
+          default: 0
+        user:
+          title: User
+          type: object
+          default: {}
+        updatedWhen:
+          title: Updatedwhen
+          type: number
+          default: 0
+        history:
+          title: History
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceHistoryItem'
+          default: []
+      description: Shared service request
+    SharedServiceInCreate:
+      title: SharedServiceInCreate
+      required:
+        - templateName
+      type: object
+      properties:
+        templateName:
+          title: Shared service type
+          type: string
+          description: Bundle name
+        properties:
+          title: Shared service parameters
+          type: object
+          description: Values for the parameters required by the shared service resource specification
+          default: {}
+      example:
+        templateName: tre-shared-service-firewall
+        properties:
+          display_name: My shared service
+          description: Some description
+    SharedServiceInResponse:
+      title: SharedServiceInResponse
+      required:
+        - sharedService
+      type: object
+      properties:
+        sharedService:
+          $ref: '#/components/schemas/SharedService'
+      example:
+        shared_service:
+          id: 2fdc9fba-726e-4db6-a1b8-9018a2165748
+          isActive: true
+          templateName: tre-shared-service-firewall
+          templateVersion: 0.1.0
+          properties:
+            display_name: My shared service
+            description: Some description
+          resourceType: shared-service
+    SharedServiceTemplateInCreate:
+      title: SharedServiceTemplateInCreate
+      required:
+        - name
+        - version
+        - current
+        - json_schema
+      type: object
+      properties:
+        name:
+          title: Template name
+          type: string
+        version:
+          title: Template version
+          type: string
+        current:
+          title: Mark this version as current
+          type: boolean
+        json_schema:
+          title: JSON Schema compliant template
+          type: object
+        customActions:
+          title: Custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+      example:
+        name: my-tre-shared-service
+        version: 0.0.1
+        current: 'true'
+        json_schema:
+          $schema: http://json-schema.org/draft-07/schema
+          $id: https://github.com/microsoft/AzureTRE/templates/shared_services/myshared_service/shared_service.json
+          type: object
+          title: My Shared Service Template
+          description: These is a test shared service resource template schema
+          required: []
+          properties: {}
+        customActions:
+          - name: disable
+            description: Deallocates resources
+    SharedServiceTemplateInResponse:
+      title: SharedServiceTemplateInResponse
+      required:
+        - id
+        - name
+        - description
+        - version
+        - resourceType
+        - current
+        - required
+        - properties
+        - system_properties
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Unique template name
+          type: string
+        title:
+          title: Template title or friendly name
+          type: string
+          default: ''
+        description:
+          title: Template description
+          type: string
+        version:
+          title: Template version
+          type: string
+        resourceType:
+          title: Type of resource this template is for (workspace/service)
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+        current:
+          title: Is this the current version of this template
+          type: boolean
+        type:
+          title: Type
+          type: string
+          default: object
+        required:
+          title: List of properties which must be provided
+          type: array
+          items:
+            type: string
+        properties:
+          title: Template properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+        actions:
+          title: Template actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        customActions:
+          title: Template custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        pipeline:
+          title: Template pipeline to define updates to other resources
+          type: object
+        additionalProperties:
+          title: Prevent unspecified properties being applied
+          type: boolean
+          default: false
+        system_properties:
+          title: System properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+      example:
+        id: a7a7a7bd-7f4e-4a4e-b970-dc86a6b31dfb
+        name: tre-shared-service
+        title: Shared Service
+        description: Shared service bundle
+        version: 0.1.0
+        resourceType: shared-service
+        current: true
+        type: object
+        required:
+          - display_name
+          - description
+        properties:
+          display_name:
+            type: string
+            title: ''
+            description: ''
+          description:
+            type: string
+            title: ''
+            description: ''
+        actions:
+          - description: ''
+        customActions: []
+        additionalProperties: false
+        system_properties:
+          tre_id:
+            type: string
+            title: ''
+            description: ''
+          shared_service_id:
+            type: string
+            title: ''
+            description: ''
+          azure_location:
+            type: string
+            title: ''
+            description: ''
+    SharedServicesInList:
+      title: SharedServicesInList
+      type: object
+      properties:
+        sharedServices:
+          title: shared services
+          type: array
+          items:
+            $ref: '#/components/schemas/SharedService'
+          default: []
+      example:
+        sharedServices:
+          - id: 2fdc9fba-726e-4db6-a1b8-9018a2165748
+            isActive: true
+            templateName: tre-shared-service-firewall
+            templateVersion: 0.1.0
+            properties:
+              display_name: My shared service
+              description: Some description
+            resourceType: shared-service
+          - id: abcc9fba-726e-4db6-a1b8-9018a2165748
+            isActive: true
+            templateName: tre-shared-service-firewall
+            templateVersion: 0.1.0
+            properties:
+              display_name: My shared service
+              description: Some description
+            resourceType: shared-service
+    Status:
+      title: Status
+      enum:
+        - failed
+        - deleted
+        - deployed
+        - deleting
+        - deploying
+        - not_deployed
+        - deleting_failed
+        - invoking_action
+        - action_succeeded
+        - action_failed
+      type: string
+      description: Operation status
+    UserResourceTemplateInCreate:
+      title: UserResourceTemplateInCreate
+      required:
+        - name
+        - version
+        - current
+        - json_schema
+      type: object
+      properties:
+        name:
+          title: Template name
+          type: string
+        version:
+          title: Template version
+          type: string
+        current:
+          title: Mark this version as current
+          type: boolean
+        json_schema:
+          title: JSON Schema compliant template
+          type: object
+        customActions:
+          title: Custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+      example:
+        name: my-tre-user-resource
+        version: 0.0.1
+        current: 'true'
+        json_schema:
+          $schema: http://json-schema.org/draft-07/schema
+          $id: https://github.com/microsoft/AzureTRE/templates/workspaces/myworkspace/user_resource.json
+          type: object
+          title: My User Resource Template
+          description: These is a test user resource template schema
+          required: []
+          properties: {}
+        customActions:
+          - name: start
+            description: Starts a VM
+          - name: stop
+            description: Stops a VM
+    UserResourceTemplateInResponse:
+      title: UserResourceTemplateInResponse
+      required:
+        - id
+        - name
+        - description
+        - version
+        - resourceType
+        - current
+        - required
+        - properties
+        - system_properties
+        - parentWorkspaceService
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Unique template name
+          type: string
+        title:
+          title: Template title or friendly name
+          type: string
+          default: ''
+        description:
+          title: Template description
+          type: string
+        version:
+          title: Template version
+          type: string
+        resourceType:
+          title: Type of resource this template is for (workspace/service)
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+        current:
+          title: Is this the current version of this template
+          type: boolean
+        type:
+          title: Type
+          type: string
+          default: object
+        required:
+          title: List of properties which must be provided
+          type: array
+          items:
+            type: string
+        properties:
+          title: Template properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+        actions:
+          title: Template actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        customActions:
+          title: Template custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        pipeline:
+          title: Template pipeline to define updates to other resources
+          type: object
+        additionalProperties:
+          title: Prevent unspecified properties being applied
+          type: boolean
+          default: false
+        system_properties:
+          title: System properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+        parentWorkspaceService:
+          title: Workspace type
+          type: string
+          description: Bundle name
+      example:
+        id: a7a7a7bd-7f4e-4a4e-b970-dc86a6b31dfb
+        name: guacamole-vm
+        title: Guacamole VM
+        description: user resource bundle
+        version: 0.1.0
+        resourceType: user-resource
+        current: true
+        type: object
+        required:
+          - display_name
+          - description
+        properties:
+          display_name:
+            type: string
+            title: ''
+            description: ''
+          description:
+            type: string
+            title: ''
+            description: ''
+        actions: []
+        customActions:
+          - description: ''
+        additionalProperties: false
+        parentWorkspaceService: guacamole
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            type: string
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+    Workspace:
+      title: Workspace
+      required:
+        - id
+        - templateName
+        - templateVersion
+        - _etag
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+          description: GUID identifying the resource request
+        templateName:
+          title: Resource template name
+          type: string
+          description: The resource template (bundle) to deploy
+        templateVersion:
+          title: Resource template version
+          type: string
+          description: The version of the resource template (bundle) to deploy
+        properties:
+          title: Resource template parameters
+          type: object
+          description: Parameters for the deployment
+          default: {}
+        isActive:
+          title: Isactive
+          type: boolean
+          default: true
+        isEnabled:
+          title: Isenabled
+          type: boolean
+          default: true
+        resourceType:
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+          default: workspace
+        _etag:
+          title: _etag
+          type: string
+          description: eTag of the document
+        resourcePath:
+          title: Resourcepath
+          type: string
+          default: ''
+        resourceVersion:
+          title: Resourceversion
+          type: integer
+          default: 0
+        user:
+          title: User
+          type: object
+          default: {}
+        updatedWhen:
+          title: Updatedwhen
+          type: number
+          default: 0
+        history:
+          title: History
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceHistoryItem'
+          default: []
+        workspaceURL:
+          title: Workspace URL
+          type: string
+          description: Main endpoint for workspace users
+          default: ''
+        authInformation:
+          title: Authinformation
+          type: object
+          default: {}
+      description: Workspace request
+    WorkspaceInCreate:
+      title: WorkspaceInCreate
+      required:
+        - templateName
+      type: object
+      properties:
+        templateName:
+          title: Workspace type
+          type: string
+          description: Bundle name
+        properties:
+          title: Workspace parameters
+          type: object
+          description: Values for the parameters required by the workspace resource specification
+          default: {}
+      example:
+        templateName: tre-workspace-base
+        properties:
+          display_name: the workspace display name
+          description: workspace description
+          app_id: 9d52b04f-89cf-47b4-868a-e12be7133b36
+          address_space_size: small
+    WorkspaceInResponse:
+      title: WorkspaceInResponse
+      required:
+        - workspace
+      type: object
+      properties:
+        workspace:
+          $ref: '#/components/schemas/Workspace'
+      example:
+        workspace:
+          id: 933ad738-7265-4b5f-9eae-a1a62928772e
+          isActive: true
+          templateName: tre-workspace-base
+          templateVersion: 0.1.0
+          properties:
+            azure_location: westeurope
+            workspace_id: '0001'
+            tre_id: mytre-dev-1234
+            address_space_size: small
+          resourceType: workspace
+          workspaceURL: ''
+          authInformation: {}
+    WorkspaceServiceTemplateInCreate:
+      title: WorkspaceServiceTemplateInCreate
+      required:
+        - name
+        - version
+        - current
+        - json_schema
+      type: object
+      properties:
+        name:
+          title: Template name
+          type: string
+        version:
+          title: Template version
+          type: string
+        current:
+          title: Mark this version as current
+          type: boolean
+        json_schema:
+          title: JSON Schema compliant template
+          type: object
+        customActions:
+          title: Custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+      example:
+        name: my-tre-workspace-service
+        version: 0.0.1
+        current: 'true'
+        json_schema:
+          $schema: http://json-schema.org/draft-07/schema
+          $id: https://github.com/microsoft/AzureTRE/templates/workspaces/myworkspace/workspace_service.json
+          type: object
+          title: My Workspace Service Template
+          description: These is a test workspace service resource template schema
+          required: []
+          properties: {}
+        customActions:
+          - name: disable
+            description: Deallocates resources
+    WorkspaceServiceTemplateInResponse:
+      title: WorkspaceServiceTemplateInResponse
+      required:
+        - id
+        - name
+        - description
+        - version
+        - resourceType
+        - current
+        - required
+        - properties
+        - system_properties
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Unique template name
+          type: string
+        title:
+          title: Template title or friendly name
+          type: string
+          default: ''
+        description:
+          title: Template description
+          type: string
+        version:
+          title: Template version
+          type: string
+        resourceType:
+          title: Type of resource this template is for (workspace/service)
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+        current:
+          title: Is this the current version of this template
+          type: boolean
+        type:
+          title: Type
+          type: string
+          default: object
+        required:
+          title: List of properties which must be provided
+          type: array
+          items:
+            type: string
+        properties:
+          title: Template properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+        actions:
+          title: Template actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        customActions:
+          title: Template custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        pipeline:
+          title: Template pipeline to define updates to other resources
+          type: object
+        additionalProperties:
+          title: Prevent unspecified properties being applied
+          type: boolean
+          default: false
+        system_properties:
+          title: System properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+      example:
+        id: a7a7a7bd-7f4e-4a4e-b970-dc86a6b31dfb
+        name: tre-workspace-service
+        title: Workspace Service
+        description: workspace service bundle
+        version: 0.1.0
+        resourceType: workspace-service
+        current: true
+        type: object
+        required:
+          - display_name
+          - description
+        properties:
+          display_name:
+            type: string
+            title: ''
+            description: ''
+          description:
+            type: string
+            title: ''
+            description: ''
+        actions: []
+        customActions:
+          - description: ''
+        additionalProperties: false
+        system_properties:
+          tre_id:
+            type: string
+            title: ''
+            description: ''
+          workspace_id:
+            type: string
+            title: ''
+            description: ''
+          azure_location:
+            type: string
+            title: ''
+            description: ''
+    WorkspaceTemplateInCreate:
+      title: WorkspaceTemplateInCreate
+      required:
+        - name
+        - version
+        - current
+        - json_schema
+      type: object
+      properties:
+        name:
+          title: Template name
+          type: string
+        version:
+          title: Template version
+          type: string
+        current:
+          title: Mark this version as current
+          type: boolean
+        json_schema:
+          title: JSON Schema compliant template
+          type: object
+        customActions:
+          title: Custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+      example:
+        name: my-tre-workspace
+        version: 0.0.1
+        current: 'true'
+        json_schema:
+          $schema: http://json-schema.org/draft-07/schema
+          $id: https://github.com/microsoft/AzureTRE/templates/workspaces/myworkspace/workspace.json
+          type: object
+          title: My Workspace Template
+          description: This is a test workspace template schema
+          required:
+            - vm_size
+            - no_of_vms
+          properties:
+            display_name:
+              type: string
+              title: Name for the workspace
+              description: The name of the workspace to be displayed to users
+            description:
+              type: string
+              title: Description of the workspace
+              description: Description of the workspace
+            address_space_size:
+              type: string
+              title: Address space size
+              description: Network address size (small, medium, large or custom) to be used by the workspace
+            address_space:
+              type: string
+              title: Address space
+              description: Network address space to be used by the workspace if address_space_size is custom
+        customActions:
+          - name: disable
+            description: Deallocates resources
+    WorkspaceTemplateInResponse:
+      title: WorkspaceTemplateInResponse
+      required:
+        - id
+        - name
+        - description
+        - version
+        - resourceType
+        - current
+        - required
+        - properties
+        - system_properties
+      type: object
+      properties:
+        id:
+          title: Id
+          type: string
+        name:
+          title: Unique template name
+          type: string
+        title:
+          title: Template title or friendly name
+          type: string
+          default: ''
+        description:
+          title: Template description
+          type: string
+        version:
+          title: Template version
+          type: string
+        resourceType:
+          title: Type of resource this template is for (workspace/service)
+          allOf:
+            - $ref: '#/components/schemas/ResourceType'
+        current:
+          title: Is this the current version of this template
+          type: boolean
+        type:
+          title: Type
+          type: string
+          default: object
+        required:
+          title: List of properties which must be provided
+          type: array
+          items:
+            type: string
+        properties:
+          title: Template properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+        actions:
+          title: Template actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        customActions:
+          title: Template custom actions
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomAction'
+          default: []
+        pipeline:
+          title: Template pipeline to define updates to other resources
+          type: object
+        additionalProperties:
+          title: Prevent unspecified properties being applied
+          type: boolean
+          default: false
+        system_properties:
+          title: System properties
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+      example:
+        id: a7a7a7bd-7f4e-4a4e-b970-dc86a6b31dfb
+        name: tre-workspace-base
+        title: Workspace
+        description: base workspace bundle
+        version: 0.1.0
+        resourceType: workspace
+        current: true
+        type: object
+        required:
+          - display_name
+          - description
+          - app_id
+        properties:
+          display_name:
+            type: string
+            title: ''
+            description: ''
+          description:
+            type: string
+            title: ''
+            description: ''
+          app_id:
+            type: string
+            title: ''
+            description: ''
+          address_space_size:
+            type: string
+            title: ''
+            description: This can have a value of small, medium, large or custom. If you specify custom, then you need to specify a VNet address space in 'address_space' (e.g. 10.2.1.0/24)
+            default: small
+        actions: []
+        customActions:
+          - description: ''
+        additionalProperties: false
+        system_properties:
+          tre_id:
+            type: string
+            title: ''
+            description: ''
+          workspace_id:
+            type: string
+            title: ''
+            description: ''
+          azure_location:
+            type: string
+            title: ''
+            description: ''
+    WorkspacesInList:
+      title: WorkspacesInList
+      required:
+        - workspaces
+      type: object
+      properties:
+        workspaces:
+          title: Workspaces
+          type: array
+          items:
+            $ref: '#/components/schemas/Workspace'
+      example:
+        workspaces:
+          - id: 933ad738-7265-4b5f-9eae-a1a62928772e
+            isActive: true
+            templateName: tre-workspace-base
+            templateVersion: 0.1.0
+            properties:
+              azure_location: westeurope
+              workspace_id: '0001'
+              tre_id: mytre-dev-1234
+              address_space_size: small
+            resourceType: workspace
+            workspaceURL: ''
+            authInformation: {}
+          - id: 2fdc9fba-726e-4db6-a1b8-9018a2165748
+            isActive: true
+            templateName: tre-workspace-base
+            templateVersion: 0.1.0
+            properties:
+              azure_location: westeurope
+              workspace_id: '0002'
+              tre_id: mytre-dev-1234
+              address_space_size: small
+            resourceType: workspace
+            workspaceURL: ''
+            authInformation: {}
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          refreshUrl: https://login.microsoftonline.com/64bdc039-7c7f-4290-949e-d4ae71101008/oauth2/v2.0/token
+          scopes: {}
+          authorizationUrl: https://login.microsoftonline.com/64bdc039-7c7f-4290-949e-d4ae71101008/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/64bdc039-7c7f-4290-949e-d4ae71101008/oauth2/v2.0/token
+tags:
+  - name: health
+    description: Verify that the TRE is up and running
+  - name: workspace templates
+    description: '**TRE admin** registers and can access templates'
+  - name: workspace service templates
+    description: '**TRE admin** registers templates and can access templates'
+  - name: user resource templates
+    description: '**TRE admin** registers templates and can access templates'
+  - name: workspaces
+    description: '**TRE admin** administers workspaces, **TRE Users** can view their own workspaces'

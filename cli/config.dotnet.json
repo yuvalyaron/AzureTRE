@@ -1,0 +1,27 @@
+{
+  "allowUnicodeIdentifiers":false,
+  "caseInsensitiveResponseHeaders":false,
+  "hideGenerationTimestamp":true,
+  "interfacePrefix":"I",
+  "licenseId":"MIT",
+  "modelPropertyNaming":"PascalCase",
+  "netCoreProjectFile":true,
+  "nonPublicApi":false,
+  "optionalAssemblyInfo":true,
+  "optionalEmitDefaultValues":false,
+  "optionalMethodArgument":true,
+  "optionalProjectFile":true,
+  "packageGuid":"006fd86c-a331-44b9-9bde-dc96f945d106",
+  "packageName":"TRE.Rest.Client",
+  "packageTags":"",
+  "packageVersion":"0.0.0",
+  "releaseNote":"TRE C# SDK Pre-release",
+  "returnICollection":false,
+  "sortParamsByRequiredFlag":true,
+  "sourceFolder":"src",
+  "targetFramework":"net5.0",
+  "useCollection":true,
+  "useDateTimeOffset":false,
+  "validatable":true
+}
+
