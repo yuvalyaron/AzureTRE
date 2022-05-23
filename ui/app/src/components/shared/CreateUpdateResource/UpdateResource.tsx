@@ -2,17 +2,17 @@ import { Icon, mergeStyles, Panel, PanelType, PrimaryButton } from '@fluentui/re
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Operation } from '../../../models/operation';
-import { ResourceType } from '../../../models/resourceType';
 import { Workspace } from '../../../models/workspace';
 import { WorkspaceService } from '../../../models/workspaceService';
 import { NotificationsContext } from '../../../contexts/NotificationsContext';
 import { ResourceForm } from './ResourceForm';
 import { getResourcesPath, getTemplatesPath } from '../../../apiPathHelpers';
+import { UserResource } from '../../../models/userResource';
 
 interface UpdateResourceProps {
   isOpen: boolean,
   onClose: () => void,
-  resourceType: ResourceType,
+  resource: Workspace | WorkspaceService | UserResource,
   parentResource?: Workspace | WorkspaceService
 }
 
@@ -32,7 +32,6 @@ const updatingIconClass = mergeStyles({
 
 export const UpdateResource: React.FunctionComponent<UpdateResourceProps> = (props: UpdateResourceProps) => {
   const [page, setPage] = useState('resourceForm' as keyof PageTitle);
-  const [selectedTemplate, setTemplate] = useState('');
   const [deployOperation, setDeployOperation] = useState({} as Operation);
   const opsContext = useContext(NotificationsContext);
   const navigate = useNavigate();
@@ -41,7 +40,6 @@ export const UpdateResource: React.FunctionComponent<UpdateResourceProps> = (pro
     const clearState = () => {
       setPage('resourceForm');
       setDeployOperation({} as Operation);
-      setTemplate('');
     }
 
     // Clear state on panel close
@@ -52,7 +50,7 @@ export const UpdateResource: React.FunctionComponent<UpdateResourceProps> = (pro
 
   // Render a panel title depending on sub-page
   const pageTitles: PageTitle = {
-    resourceForm: 'Update ' + props.resourceType,
+    resourceForm: 'Update ' + props.resource.resourceType,
     updating: ''
   }
 
@@ -63,23 +61,23 @@ export const UpdateResource: React.FunctionComponent<UpdateResourceProps> = (pro
     opsContext.addOperation(operation);
   }
 
-  const templatesPath = getTemplatesPath(props.resourceType, props.parentResource);
-  const resourcesPath = getResourcesPath(props.resourceType, props.parentResource);
+  const templatesPath = getTemplatesPath(props.resource.resourceType, props.parentResource);
+  const resourcesPath = getResourcesPath(props.resource.resourceType, props.parentResource);
 
   // Render the current panel sub-page
   let currentPage;
   switch(page) {
     case 'resourceForm':
-      currentPage = <ResourceForm 
-        templateName={selectedTemplate}
-        templatePath={`${templatesPath}/${selectedTemplate}`}
+      currentPage = <ResourceForm
+        templateName={props.resource.templateName}
+        templatePath={`${templatesPath}/${props.resource.templateName}?isUpdate=true`} // Get update template
         resourcesPath={resourcesPath}
         onCreateResource={resourceUpdating}
       />; break;
     case 'updating':
       currentPage = <div style={{ textAlign: 'center', paddingTop: 100 }}>
         <Icon iconName="CloudAdd" className={updatingIconClass} />
-        <h1>Updating {props.resourceType}...</h1>
+        <h1>Updating {props.resource.templateName}...</h1>
         <p>Check the notifications panel for deployment progress.</p>
         <PrimaryButton text="Go to resource" onClick={() => navigate(deployOperation.resourcePath)}/>
       </div>; break;

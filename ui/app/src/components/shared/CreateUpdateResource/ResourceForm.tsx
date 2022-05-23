@@ -39,7 +39,8 @@ export const ResourceForm: React.FunctionComponent<ResourceFormProps> = (props: 
     const createResource = async (formData: {}) => {
         setDeployError(false);
         const resource = { templateName: props.templateName, properties: formData };
-        console.log(resource);
+
+        // Send the create/update request to the API and handle response
         const response = await apiCall(props.resourcesPath, HttpMethod.Post, undefined, resource, ResultType.JSON);
         if (response) {
             props.onCreateResource(response.operation);
