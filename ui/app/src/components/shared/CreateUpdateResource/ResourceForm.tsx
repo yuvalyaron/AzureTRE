@@ -8,7 +8,7 @@ import { Operation } from "../../../models/operation";
 interface ResourceFormProps {
     templateName: string,
     templatePath: string,
-    resourcePath: string,
+    resourcesPath: string,
     onCreateResource: (operation: Operation) => void
 }
 
@@ -40,7 +40,7 @@ export const ResourceForm: React.FunctionComponent<ResourceFormProps> = (props: 
         setDeployError(false);
         const resource = { templateName: props.templateName, properties: formData };
         console.log(resource);
-        const response = await apiCall(props.resourcePath, HttpMethod.Post, undefined, resource, ResultType.JSON);
+        const response = await apiCall(props.resourcesPath, HttpMethod.Post, undefined, resource, ResultType.JSON);
         if (response) {
             props.onCreateResource(response.operation);
         } else {

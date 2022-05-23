@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Workspace } from '../../models/workspace';
 import { ApiEndpoint } from '../../models/apiEndpoints';
 import { WorkspaceService } from '../../models/workspaceService';
-import { CreateUpdateResource } from '../shared/CreateUpdateResource/CreateUpdateResource';
+import { CreateResource } from '../shared/CreateUpdateResource/CreateResource';
 import { ResourceType } from '../../models/resourceType';
 import { useBoolean } from '@fluentui/react-hooks';
 
@@ -85,7 +85,7 @@ export const WorkspaceLeftNav: React.FunctionComponent<WorkspaceLeftNavProps> = 
         ariaLabel="TRE Workspace Left Navigation"
         groups={serviceLinks}
       />
-      <CreateUpdateResource
+      <CreateResource
         isOpen={createPanelOpen}
         onClose={closeCreatePanel}
         resourceType={ResourceType.WorkspaceService}

@@ -1,7 +1,6 @@
 import { Icon, mergeStyles, Panel, PanelType, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ApiEndpoint } from '../../../models/apiEndpoints';
 import { Operation } from '../../../models/operation';
 import { ResourceType } from '../../../models/resourceType';
 import { Workspace } from '../../../models/workspace';
@@ -9,8 +8,9 @@ import { WorkspaceService } from '../../../models/workspaceService';
 import { NotificationsContext } from '../../../contexts/NotificationsContext';
 import { ResourceForm } from './ResourceForm';
 import { SelectTemplate } from './SelectTemplate';
+import { getResourcesPath, getTemplatesPath } from '../../../apiPathHelpers';
 
-interface CreateUpdateResourceProps {
+interface CreateResourceProps {
   isOpen: boolean,
   onClose: () => void,
   resourceType: ResourceType,
@@ -32,7 +32,7 @@ const creatingIconClass = mergeStyles({
   padding: 20
 });
 
-export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceProps> = (props: CreateUpdateResourceProps) => {
+export const CreateResource: React.FunctionComponent<CreateResourceProps> = (props: CreateResourceProps) => {
   const [page, setPage] = useState('selectTemplate' as keyof PageTitle);
   const [selectedTemplate, setTemplate] = useState('');
   const [deployOperation, setDeployOperation] = useState({} as Operation);
@@ -59,39 +59,6 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
     creating: ''
   }
 
-  // Construct API path for templates of specified resourceType
-  let templatesPath;
-  switch (props.resourceType) {
-    case ResourceType.Workspace:
-      templatesPath = ApiEndpoint.WorkspaceTemplates; break;
-    case ResourceType.WorkspaceService:
-      templatesPath = ApiEndpoint.WorkspaceServiceTemplates; break;
-    case ResourceType.SharedService:
-      templatesPath = ApiEndpoint.SharedServiceTemplates; break;
-    case ResourceType.UserResource:
-      if (props.parentResource) {
-        templatesPath = `${ApiEndpoint.WorkspaceServiceTemplates}/${props.parentResource.templateName}/${ApiEndpoint.UserResourceTemplates}`; break;
-      } else {
-        throw Error('Parent workspace service must be passed as prop when creating user resource.');
-      }
-    default:
-      throw Error('Unsupported resource type.');
-  }
-
-  // Construct API path for resource creation
-  let resourcePath;
-  switch (props.resourceType) {
-    case ResourceType.Workspace:
-      resourcePath = ApiEndpoint.Workspaces; break;
-    case ResourceType.SharedService:
-      resourcePath = ApiEndpoint.SharedServices; break;
-    default:
-      if (!props.parentResource) {
-        throw Error('A parentResource must be passed as prop if creating a workspace-service or user-resource');
-      }
-      resourcePath = `${props.parentResource.resourcePath}/${props.resourceType}`;
-  }
-
   const selectTemplate = (templateName: string) => {
     setTemplate(templateName);
     setPage('resourceForm');
@@ -104,6 +71,9 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
     opsContext.addOperation(operation);
   }
 
+  const templatesPath = getTemplatesPath(props.resourceType, props.parentResource);
+  const resourcesPath = getResourcesPath(props.resourceType, props.parentResource);
+
   // Render the current panel sub-page
   let currentPage;
   switch(page) {
@@ -113,7 +83,7 @@ export const CreateUpdateResource: React.FunctionComponent<CreateUpdateResourceP
       currentPage = <ResourceForm 
         templateName={selectedTemplate}
         templatePath={`${templatesPath}/${selectedTemplate}`}
-        resourcePath={resourcePath}
+        resourcesPath={resourcesPath}
         onCreateResource={resourceCreating}
       />; break;
     case 'creating':

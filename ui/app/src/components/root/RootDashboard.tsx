@@ -4,7 +4,7 @@ import { Workspace } from '../../models/workspace';
 import { ResourceCardList } from '../shared/ResourceCardList';
 import { Resource } from '../../models/resource';
 import { PrimaryButton, Stack } from '@fluentui/react';
-import { CreateUpdateResource } from '../shared/CreateUpdateResource/CreateUpdateResource';
+import { CreateResource } from '../shared/CreateUpdateResource/CreateResource';
 import { ResourceType } from '../../models/resourceType';
 import { useBoolean } from '@fluentui/react-hooks';
 
@@ -24,7 +24,7 @@ export const RootDashboard: React.FunctionComponent<RootDashboardProps> = (props
         <Stack.Item><h1>Workspaces</h1></Stack.Item>
         <Stack.Item style={{width:200, textAlign: 'right'}}><PrimaryButton iconProps={{ iconName: 'Add' }} text="Create new" onClick={createNew}/></Stack.Item>
         
-        <CreateUpdateResource isOpen={createPanelOpen} onClose={closeCreatePanel} resourceType={ResourceType.Workspace}/>
+        <CreateResource isOpen={createPanelOpen} onClose={closeCreatePanel} resourceType={ResourceType.Workspace}/>
       </Stack>
       <ResourceCardList
         resources={props.workspaces}
