@@ -189,6 +189,7 @@ AIRLOCK_REQUEST_IS_CANCELED = "Airlock request was cancelled."
 AIRLOCK_REQUEST_INVALID_STATUS = "Airlock request status is unknown."
 AIRLOCK_UNAUTHORIZED_TO_SA = "User is unauthorized to access airlock request files in its current status."
 AIRLOCK_NOT_ENABLED_IN_WORKSPACE = "Airlock is not enabled in this workspace."
+AIRLOCK_REQUEST_FILE_SIZE_LIMIT_EXCEEDED = "Request exceeds the size limit of {} MiB."
 
 # Deployments
 RESOURCE_STATUS_AWAITING_DEPLOYMENT_MESSAGE = "This resource is waiting to be deployed"

@@ -151,3 +151,9 @@ variable "enable_airlock_malware_scanning" {
   default     = false
   description = "If False, Airlock requests will skip the malware scanning stage"
 }
+
+variable "airlock_request_file_size_limit_in_mb" {
+  type        = number
+  default     = -1
+  description = "Optional, will limit the size of files in Airlock requests. If the limit is higher than Airlock's dependencies limit, the lower value is taken."
+}

@@ -21,7 +21,7 @@ from .airlock_resource_helpers import save_airlock_review, save_and_publish_even
     update_status_and_publish_event_airlock_request, RequestAccountDetails
 
 from services.airlock import get_storage_management_client, validate_user_allowed_to_access_storage_account, \
-    get_account_and_rg_by_request, get_airlock_request_container_sas_token, validate_request_status
+    get_account_and_rg_by_request, get_airlock_request_container_sas_token, validate_request_status, validate_request_files_size_does_not_exceed_limit
 
 airlock_workspace_router = APIRouter(dependencies=[Depends(get_current_workspace_owner_or_researcher_user)])
 storage_client = get_storage_management_client()
@@ -48,6 +48,7 @@ async def retrieve_airlock_request_by_id(airlock_request=Depends(get_airlock_req
 
 @airlock_workspace_router.post("/workspaces/{workspace_id}/requests/{airlock_request_id}/submit", status_code=status.HTTP_200_OK, response_model=AirlockRequestInResponse, name=strings.API_SUBMIT_AIRLOCK_REQUEST, dependencies=[Depends(get_current_workspace_owner_or_researcher_user)])
 async def create_submit_request(airlock_request=Depends(get_airlock_request_by_id_from_path), user=Depends(get_current_workspace_owner_or_researcher_user), airlock_request_repo=Depends(get_repository(AirlockRequestRepository)), workspace=Depends(get_workspace_by_id_from_path)) -> AirlockRequestInResponse:
+    validate_request_files_size_does_not_exceed_limit(airlock_request, workspace, storage_client)
     updated_resource = await update_status_and_publish_event_airlock_request(airlock_request, airlock_request_repo, user, AirlockRequestStatus.Submitted, workspace)
     return AirlockRequestInResponse(airlockRequest=updated_resource)
 

@@ -137,9 +137,10 @@ class TestAirlockRoutesThatRequireOwnerOrResearcherRights():
         assert response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
 
     # [POST] /workspaces/{workspace_id}/requests/{airlock_request_id}/submit
+    @patch("api.routes.airlock.validate_request_files_size_does_not_exceed_limit")
     @patch("api.routes.airlock.AirlockRequestRepository.read_item_by_id", return_value=sample_airlock_request_object())
     @patch("api.routes.airlock.update_status_and_publish_event_airlock_request", return_value=sample_airlock_request_object(status=AirlockRequestStatus.Submitted))
-    async def test_post_submit_airlock_request_submitts_airlock_request_returns_200(self, _, __, app, client):
+    async def test_post_submit_airlock_request_submitts_airlock_request_returns_200(self, _, __, ___, app, client):
         response = await client.post(app.url_path_for(strings.API_SUBMIT_AIRLOCK_REQUEST, workspace_id=WORKSPACE_ID, airlock_request_id=AIRLOCK_REQUEST_ID))
         assert response.status_code == status.HTTP_200_OK
         assert response.json()["airlockRequest"]["id"] == AIRLOCK_REQUEST_ID
@@ -156,19 +157,29 @@ class TestAirlockRoutesThatRequireOwnerOrResearcherRights():
         response = await client.post(app.url_path_for(strings.API_SUBMIT_AIRLOCK_REQUEST, workspace_id=WORKSPACE_ID, airlock_request_id=AIRLOCK_REQUEST_ID))
         assert response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
 
+    @patch("api.routes.airlock.validate_request_files_size_does_not_exceed_limit")
     @patch("api.routes.airlock.AirlockRequestRepository.read_item_by_id", return_value=sample_airlock_request_object())
     @patch("api.routes.airlock.AirlockRequestRepository.update_airlock_request_status")
     @patch("api.routes.airlock.AirlockRequestRepository.delete_item")
     @patch("event_grid.event_sender.send_status_changed_event", side_effect=HttpResponseError)
-    async def test_post_submit_airlock_request_with_event_grid_not_responding_returns_503(self, _, __, ___, ____, app, client):
+    async def test_post_submit_airlock_request_with_event_grid_not_responding_returns_503(self, _, __, ___, ____, _____, app, client):
         response = await client.post(app.url_path_for(strings.API_SUBMIT_AIRLOCK_REQUEST, workspace_id=WORKSPACE_ID, airlock_request_id=AIRLOCK_REQUEST_ID))
         assert response.status_code == status.HTTP_503_SERVICE_UNAVAILABLE
 
+    @patch("api.routes.airlock.validate_request_files_size_does_not_exceed_limit")
     @patch("api.routes.airlock.AirlockRequestRepository.read_item_by_id", return_value=sample_airlock_request_object())
     @patch("api.routes.airlock.AirlockRequestRepository._validate_status_update", return_value=False)
-    async def test_post_submit_airlock_request_with_illegal_status_change_returns_400(self, _, __, app, client):
+    async def test_post_submit_airlock_request_with_illegal_status_change_returns_400(self, _, __, ___, app, client):
         response = await client.post(app.url_path_for(strings.API_SUBMIT_AIRLOCK_REQUEST, workspace_id=WORKSPACE_ID, airlock_request_id=AIRLOCK_REQUEST_ID))
         assert response.status_code == status.HTTP_400_BAD_REQUEST
+
+    @patch("services.airlock.get_airlock_request_file_size_limit_in_mb", return_value=5)
+    @patch("services.airlock._get_container_size_in_mb", return_value=6)
+    @patch("api.routes.airlock.AirlockRequestRepository.read_item_by_id", return_value=sample_airlock_request_object())
+    @patch("api.routes.airlock.update_status_and_publish_event_airlock_request", return_value=sample_airlock_request_object(status=AirlockRequestStatus.Submitted))
+    async def test_post_airlock_request_with_files_size_exceeds_limit_returns_413(self, _, __, ___, ____, app, client):
+        response = await client.post(app.url_path_for(strings.API_SUBMIT_AIRLOCK_REQUEST, workspace_id=WORKSPACE_ID, airlock_request_id=AIRLOCK_REQUEST_ID))
+        assert response.status_code == status.HTTP_413_REQUEST_ENTITY_TOO_LARGE
 
     # [POST] /workspaces/{workspace_id}/requests/{airlock_request_id}/cancel
     @patch("api.routes.airlock.AirlockRequestRepository.read_item_by_id", return_value=sample_airlock_request_object())

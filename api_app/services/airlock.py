@@ -1,7 +1,11 @@
+import math
+import os
+import logging
+from distutils.util import strtobool
 from datetime import datetime, timedelta
 
 from azure.mgmt.storage import StorageManagementClient
-from azure.storage.blob import generate_container_sas, ContainerSasPermissions
+from azure.storage.blob import generate_container_sas, ContainerSasPermissions, ContainerClient
 from fastapi import HTTPException
 from starlette import status
 
@@ -112,3 +116,56 @@ def get_airlock_request_container_sas_token(storage_client: StorageManagementCli
 
     return "https://{}.blob.core.windows.net/{}?{}" \
         .format(request_account_details.account_name, airlock_request.id, token)
+
+
+def validate_request_files_size_does_not_exceed_limit(airlock_request: AirlockRequest, workspace: Workspace, storage_client: StorageManagementClient):
+    airlock_limit_in_mb = get_airlock_request_file_size_limit_in_mb(airlock_request)
+
+    if airlock_limit_in_mb is math.inf:
+        return
+
+    container_size_in_mb = _get_container_size_in_mb(airlock_request, workspace, storage_client)
+    if container_size_in_mb > airlock_limit_in_mb:
+        raise HTTPException(status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE, detail=strings.AIRLOCK_REQUEST_FILE_SIZE_LIMIT_EXCEEDED.format(airlock_limit_in_mb))
+
+
+def get_airlock_request_file_size_limit_in_mb(airlock_request: AirlockRequest):
+    try:
+        is_custom_limit_defined = "AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB" in os.environ
+        is_malware_scanning_enabled = bool(strtobool(os.environ["ENABLE_AIRLOCK_MALWARE_SCANNING"])) is True
+
+        if not is_malware_scanning_enabled and not is_custom_limit_defined:
+            return math.inf
+
+        if airlock_request.requestType == constants.EXPORT_TYPE:
+            return float(os.environ["AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"]) if is_custom_limit_defined else math.inf
+
+        if is_malware_scanning_enabled and is_custom_limit_defined:
+            return min(float(os.environ["MALWARE_SCANNING_FILE_SIZE_LIMIT_IN_MB"]), float(os.environ["AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"]))
+
+        if is_malware_scanning_enabled:
+            return float(os.environ["MALWARE_SCANNING_FILE_SIZE_LIMIT_IN_MB"])
+
+        if is_custom_limit_defined:
+            return float(os.environ["AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"])
+
+        raise EnvironmentError('Invalid state - Airlock size limit could not be read.')
+
+    except KeyError as e:
+        error_message = f'Missing environment variable: {e}'
+        logging.error(error_message)
+        raise KeyError(error_message) from e
+
+
+def _get_container_size_in_mb(airlock_request, workspace, storage_client):
+    account_details = get_account_and_rg_by_request(airlock_request, workspace)
+    container_url = get_airlock_request_container_sas_token(storage_client, account_details, airlock_request)
+    container_client = ContainerClient.from_container_url(container_url)
+
+    blob_list = container_client.list_blobs()
+    total_size_in_bytes = 0
+    for blob in blob_list:
+        total_size_in_bytes += blob.size
+
+    total_size_in_mb = total_size_in_bytes / 1024 / 1024
+    return total_size_in_mb

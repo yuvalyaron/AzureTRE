@@ -92,3 +92,15 @@ output "event_grid_status_changed_topic_resource_id" {
 output "service_bus_step_result_queue" {
   value = module.airlock_resources.service_bus_step_result_queue
 }
+
+output "malware_scanning_file_size_limit_in_mb" {
+  value = local.malware_scanning_file_size_limit_in_mb
+}
+
+output "enable_airlock_malware_scanning" {
+  value = var.enable_airlock_malware_scanning
+}
+
+output "airlock_request_file_size_limit_in_mb" {
+  value = var.airlock_request_file_size_limit_in_mb
+}

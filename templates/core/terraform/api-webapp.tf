@@ -48,6 +48,9 @@ resource "azurerm_linux_web_app" "api" {
     "AAD_TENANT_ID"                                  = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.auth_tenant_id.id})"
     "API_CLIENT_ID"                                  = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.api_client_id.id})"
     "API_CLIENT_SECRET"                              = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.api_client_secret.id})"
+    "MALWARE_SCANNING_FILE_SIZE_LIMIT_IN_MB"         = local.malware_scanning_file_size_limit_in_mb
+    "ENABLE_AIRLOCK_MALWARE_SCANNING"                = var.enable_airlock_malware_scanning
+    "AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"          = var.airlock_request_file_size_limit_in_mb > 0 ? var.airlock_request_file_size_limit_in_mb : null
     "RESOURCE_GROUP_NAME"                            = azurerm_resource_group.core.name
     "SUBSCRIPTION_ID"                                = data.azurerm_subscription.current.subscription_id
     CORE_ADDRESS_SPACE                               = var.core_address_space

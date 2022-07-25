@@ -7,6 +7,8 @@ config = Config(".env")
 API_PREFIX = "/api"
 PROJECT_NAME: str = config("PROJECT_NAME", default="Azure TRE API")
 DEBUG: bool = config("DEBUG", cast=bool, default=False)
+AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB: float = config("AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB", cast=float, default=-1)
+ENABLE_AIRLOCK_MALWARE_SCANNING: bool = config("ENABLE_AIRLOCK_MALWARE_SCANNING", cast=bool, default=False)
 VERSION = __version__
 API_DESCRIPTION = "Welcome to the Azure TRE API - for more information about templates and workspaces see the [Azure TRE documentation](https://microsoft.github.io/AzureTRE)"
 

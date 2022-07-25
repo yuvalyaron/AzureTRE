@@ -86,6 +86,18 @@ jq -r '
             "env_var": "EVENT_GRID_STATUS_CHANGED_TOPIC_ENDPOINT"
         },
         {
+            "path": "enable_airlock_malware_scanning",
+            "env_var": "ENABLE_AIRLOCK_MALWARE_SCANNING"
+        },
+        {
+            "path": "malware_scanning_file_size_limit_in_mb",
+            "env_var": "MALWARE_SCANNING_FILE_SIZE_LIMIT_IN_MB"
+        },
+        {
+            "path": "airlock_request_file_size_limit_in_mb",
+            "env_var": "AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"
+        },
+        {
             "path": "event_grid_airlock_notification_topic_endpoint",
             "env_var": "EVENT_GRID_AIRLOCK_NOTIFICATION_TOPIC_ENDPOINT"
         },

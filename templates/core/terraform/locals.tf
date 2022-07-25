@@ -27,4 +27,5 @@ locals {
     tre_id              = var.tre_id
     tre_core_service_id = var.tre_id
   }
+  malware_scanning_file_size_limit_in_mb = "2048"
 }
