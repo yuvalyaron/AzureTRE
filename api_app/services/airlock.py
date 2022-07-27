@@ -117,6 +117,7 @@ def get_airlock_request_container_sas_token(storage_client: StorageManagementCli
     return "https://{}.blob.core.windows.net/{}?{}" \
         .format(request_account_details.account_name, airlock_request.id, token)
 
+
 # TODO: in order for this to work, we need to add a private endpoint to the import storage account (stalimex)
 def validate_request_files_size_does_not_exceed_limit(airlock_request: AirlockRequest, workspace: Workspace, storage_client: StorageManagementClient):
     if airlock_request.requestType == constants.EXPORT_TYPE:
@@ -141,7 +142,6 @@ def get_airlock_request_file_size_limit_in_mb(airlock_request: AirlockRequest):
         if not is_malware_scanning_enabled and not is_custom_limit_defined:
             return math.inf
 
-        # TODO: remove this block before merging as the export container cannot be reached from the API
         if airlock_request.requestType == constants.EXPORT_TYPE:
             return float(os.environ["AIRLOCK_REQUEST_FILE_SIZE_LIMIT_IN_MB"]) if is_custom_limit_defined else math.inf
 
