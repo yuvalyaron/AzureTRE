@@ -123,10 +123,10 @@ class AzureADAuthorization(AccessService):
 
             return ws_app_reg_id
         except EntityDoesNotExist as e:
-            logging.error(e)
+            logging.exception(e)
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=strings.WORKSPACE_DOES_NOT_EXIST)
         except Exception as e:
-            logging.error(e)
+            logging.exception(e)
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=strings.AUTH_COULD_NOT_VALIDATE_CREDENTIALS)
 
     @staticmethod
