@@ -5,6 +5,8 @@ from opencensus.trace import config_integration
 from opencensus.trace.samplers import AlwaysOnSampler
 from opencensus.trace.tracer import Tracer
 
+import traceback
+
 from core.config import VERSION
 
 
@@ -41,6 +43,20 @@ def disable_unwanted_loggers():
 def telemetry_processor_callback_function(envelope):
     envelope.tags['ai.cloud.role'] = 'api'
     envelope.tags['ai.application.ver'] = VERSION
+
+
+class ExceptionTracebackFilter(logging.Filter):
+    """
+    If a record contains 'exc_info', it will only show in the 'exceptions' section of Application Insights without showing
+    in the 'traces' section. In order to show it also in the 'traces' section, we need another log that does not contain 'exc_info'.
+    """
+    def filter(self, record):
+        if record.exc_info:
+            logger = logging.getLogger(record.name)
+            message = f'{record.getMessage()}\n{traceback.format_exc()}'
+            logger.log(record.levelno, message)
+
+        return True
 
 
 def initialize_logging(logging_level: int, correlation_id: str = None) -> logging.LoggerAdapter:
