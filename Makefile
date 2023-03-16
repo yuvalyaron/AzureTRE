@@ -52,6 +52,7 @@ $(call target_title, "Building $(1) Image") \
 && . ${MAKEFILE_DIR}/devops/scripts/check_dependencies.sh env \
 && . ${MAKEFILE_DIR}/devops/scripts/set_docker_sock_permission.sh \
 && source <(grep = $(2) | sed 's/ *= */=/g') \
+&& echo ${ACR_DOMAIN_SUFFIX} \
 && az acr login -n $${ACR_NAME} \
 && if [ -n "$${CI_CACHE_ACR_NAME:-}" ]; then \
 	az acr login -n $${CI_CACHE_ACR_NAME}; \
