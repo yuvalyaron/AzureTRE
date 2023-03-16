@@ -71,15 +71,24 @@ SUB_ID=$(az account show --query id -o tsv)
 export SUB_ID
 TENANT_ID=$(az account show --query tenantId -o tsv)
 export TENANT_ID
+CLOUD_NAME=$(az cloud show --query name -o tsv)
+export CLOUD_NAME
+CLOUD_NAME_DISPALY="pblicclod"
 
 if [ -z "$SUB_NAME" ]; then
   echo -e "\n\e[31m»»» ⚠️ You are not logged in to Azure!"
   exit 1
 fi
 
+if [ "$CLOUD_NAME" = "AzureUSGovernment" ]; then
+  CLOUD_NAME_DISPALY="gvclod"
+  export CLOUD_NAME_DISPALY
+fi
+
 echo -e "\e[34m»»» 🔨 \e[96mAzure details from logged on user \e[0m"
 echo -e "\e[34m»»»   • \e[96mSubscription: \e[33m$SUB_NAME\e[0m"
 echo -e "\e[34m»»»   • \e[96mTenant:       \e[33m$TENANT_ID\e[0m\n"
+echo -e "\e[34m»»»   • \e[96mCloud Name:       \e[33m$CLOUD_NAME_DISPALY\e[0m\n"
 
 # This shouldn't be here but since other scripts don't use this option we must reset it.
 # For tracking: https://github.com/microsoft/AzureTRE/issues/1672
