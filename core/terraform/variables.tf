@@ -126,7 +126,7 @@ variable "resource_processor_vmss_sku" {
 
 variable "arm_environment" {
   type        = string
-  default     = "public"
+  default     = "faketerraformdefault"
   description = "Used as an environment variable in the VMSS to set the Azure cloud for Terraform"
 }
 

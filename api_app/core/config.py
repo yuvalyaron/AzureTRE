@@ -58,4 +58,4 @@ AIRLOCK_SAS_TOKEN_EXPIRY_PERIOD_IN_HOURS: int = config("AIRLOCK_SAS_TOKEN_EXPIRY
 
 API_ROOT_SCOPE: str = f"api://{API_CLIENT_ID}/user_impersonation"
 
-ARM_ENVIRONMENT: str = config("ARM_ENVIRONMENT", default="public")
+ARM_ENVIRONMENT: str = config("ARM_ENVIRONMENT", default="fakeconfigdefault")
