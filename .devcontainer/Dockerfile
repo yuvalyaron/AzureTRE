@@ -106,8 +106,7 @@ RUN make install-cli && echo -e "\n# Set up tre completion\nsource <(_TRE_COMPLE
 
 # Install git - required for external github modules
 RUN if [ "${INTERACTIVE}" = "false" ]; then \
-    apt-get update && apt-get install --no-install-recommends -y git \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/* ; fi
+    apt-get update && apt-get install --no-install-recommends -y git ; fi
 
 # Build x86-64 docker images by default
 ENV DOCKER_DEFAULT_PLATFORM=amd64
