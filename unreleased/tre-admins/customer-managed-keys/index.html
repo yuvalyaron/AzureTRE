@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/ms_icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -2700,6 +2700,8 @@
       
         
       
+        
+      
     
     
     
@@ -2876,6 +2878,27 @@
   
   <span class="md-ellipsis">
     GitHub Actions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tre-developers/github-pr-bot-commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub PR Bot Commands
   </span>
   
 
@@ -3428,10 +3451,9 @@
 
 <h1 id="enabling-customer-managed-keys-for-tre-resources">Enabling Customer-managed keys for TRE resources</h1>
 <p>You can enable customer-managed keys (CMK) for supporting resources in Azure TRE.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Currently Azure TRE only supports CMK encryption for resources in the TRE core.<br />
-CMK encryption is not supported for the rest of the resources such as those deployed by a TRE workspace.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Currently, it is not possible to redeploy TRE with CMK enabled if it has previously been deployed without it. This is due to limitations of resources such as Azure Container Registry (ACR) that only allow enabling the CMK encryption at the time of resource creation.</p>
 </div>
 <p>When enabled, CMK encryption provides an additional layer of encryption control for supported Azure resources within the TRE by allowing you to manage and control the encryption keys used to protect your data.</p>
 <p>To enable CMK encryption, set <code>enable_cmk_encryption: true</code> in the developer settings section of your <code>config.yaml</code> file.</p>
@@ -3489,7 +3511,7 @@ CMK encryption is not supported for the rest of the resources such as those depl
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>

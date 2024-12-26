@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../assets/ms_icon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
@@ -1885,6 +1885,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modifying-the-dpi-of-the-linux-vm-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying the DPI of the Linux VM display
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-custom-images" class="md-nav__link">
     <span class="md-ellipsis">
       Using Custom Images
@@ -2718,6 +2727,8 @@
       
         
       
+        
+      
     
     
     
@@ -2894,6 +2905,27 @@
   
   <span class="md-ellipsis">
     GitHub Actions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tre-developers/github-pr-bot-commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub PR Bot Commands
   </span>
   
 
@@ -3439,6 +3471,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modifying-the-dpi-of-the-linux-vm-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modifying the DPI of the Linux VM display
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#using-custom-images" class="md-nav__link">
     <span class="md-ellipsis">
       Using Custom Images
@@ -3477,6 +3518,9 @@ It blocks all inbound and outbound traffic to the internet and allows only RDP c
 <li>In production we recommend using VM images to avoid transient issues downloading and installing packages. The included user resource templates for VMs with bootstrap scripts should only be used for trial/demonstration purposes. More info can be found <a href="../custom/">here</a>.</li>
 <li>Snap (app store for linux via <a href="https://snapcraft.io">snapcraft.io</a>) hasn't been configured to work via the nexus proxy</li>
 </ul>
+<h2 id="modifying-the-dpi-of-the-linux-vm-display">Modifying the DPI of the Linux VM display</h2>
+<p>Depending on the display resolution and your personal preference, you may want to adjust the DPI (Dots Per Inch) setting of your Linux VM to make text and UI elements appear larger or smaller, and hence clearer. This can be done by modifying the Xft.dpi value in <code>.Xresources</code> file.</p>
+<p>After running this command, you may need to run <code>reboot</code> to restart the VM so that the changes to take effect.</p>
 <h2 id="using-custom-images">Using Custom Images</h2>
 <p>For custom image usage, visit this <a href="../custom/">page</a>.</p>
 
@@ -3528,7 +3572,7 @@ It blocks all inbound and outbound traffic to the internet and allows only RDP c
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.indexes"], "search": "../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>
